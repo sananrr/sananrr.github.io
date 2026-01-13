@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | SR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">&lt;SR.Sec /&gt;</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Back to Home</a></li>
+        </ul>
+    </nav>
+
+    <header class="blog-header-section">
+        <div class="container">
+            <span class="blog-date-large">October 12, 2025</span>
+            <h1 class="article-title">Automating Defense with TheHive & Wazuh</h1>
+            <div class="tags">
+                <span>SOAR</span>
+                <span>Automation</span>
+                <span>Blue Team</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <article class="blog-content-wrapper fade-in-up">
+            
+            <p class="intro-text">
+                In modern SOC environments, alert fatigue is the enemy. By integrating TheHive (Case Management) with Wazuh (SIEM), we can reduce the Mean Time to Respond (MTTR) by automating the initial triage phase.
+            </p>
+
+            <h3>1. The Architecture</h3>
+            <p>
+                The core concept involves using <strong>Shuffle</strong> or <strong>n8n</strong> as the middleware to glue these services together. When Wazuh triggers an alert level 10 or higher, a webhook fires to our automation platform.
+            </p>
+
+            <div class="code-container">
+    <button class="copy-btn">Copy</button>
+    <pre><code>def parse_wazuh_alert(payload):
+    alert_data = payload.get('data', {})
+    rule_id = alert_data.get('rule', {}).get('id')
+    
+    if rule_id == "100002":
+        return {
+            "title": f"Malware Detected: {alert_data.get('agent', {}).get('name')}",
+            "description": alert_data.get('full_log'),
+            "severity": 3,
+            "tags": ["automated", "wazuh", "malware"]
+        }
+    return None</code></pre>
+</div>
+            <h3>3. Conclusion</h3>
+            <p>
+                By automating ticket creation, analysts can focus on the investigation rather than data entry. This pipeline ensures that no high-severity alert goes unnoticed.
+            </p>
+
+            <div class="article-footer">
+                <a href="index.html" class="btn secondary-btn">&larr; Return to Portfolio</a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sanan Rahimli. All Systems Operational.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
