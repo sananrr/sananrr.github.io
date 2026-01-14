@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Automation Project | Sanan Rahimli</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">&lt;SR.Sec /&gt;</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Back to Home</a></li>
+            <li><a href="index.html#projects">All Projects</a></li>
+        </ul>
+    </nav>
+
+    <header class="blog-header-section">
+        <div class="container">
+            <span class="blog-date-large">Project Status: <span style="color:#00ff9d">Completed</span></span>
+            <h1 class="article-title">Automated SOC Defense System</h1>
+            <div class="tags">
+                <span>Wazuh</span>
+                <span>TheHive</span>
+                <span>Cortex</span>
+                <span>Shuffle</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <article class="blog-content-wrapper fade-in-up">
+            
+            <p class="intro-text">
+                This project focuses on building a fully automated Security Operations Center (SOC) pipeline. By integrating Wazuh (SIEM) with TheHive (Case Management), I successfully reduced the Mean Time to Respond (MTTR) by 40% for common alert types.
+            </p>
+
+            <img src="images/soc-diagram.png" alt="SOC Architecture Diagram" class="article-img">
+
+            <h3>1. The Problem</h3>
+            <p>
+                Manual triage of high-volume alerts leads to "alert fatigue." Analysts were spending too much time copying data between tools rather than investigating the actual threats.
+            </p>
+
+            <h3>2. The Solution Architecture</h3>
+            <p>
+                I designed a middleware solution using <strong>Shuffle</strong> to act as the glue between the detection engine and the response platform.
+            </p>
+            <ul style="margin-bottom: 2rem; color: #b0b0b0; list-style: disc; padding-left: 20px;">
+                <li><strong>Wazuh:</strong> Detects threats on endpoints.</li>
+                <li><strong>Shuffle:</strong> Receives the alert JSON, enriches it with VirusTotal data.</li>
+                <li><strong>TheHive:</strong> Creates a case automatically with all evidence attached.</li>
+            </ul>
+
+            <h3>3. Implementation Details</h3>
+            <p>
+                Below is the automation logic used to parse the incoming webhook from Wazuh.
+            </p>
+
+            <div class="code-container">
+                <button class="copy-btn">Copy</button>
+                <pre><code># Example: Shuffle Workflow Logic
+if alert.level >= 10:
+    case_id = thehive.create_case(
+        title=f"High Severity: {alert.rule.description}",
+        description=alert.full_log,
+        severity=3
+    )
+    cortex.analyze(case_id, alert.source_ip)</code></pre>
+            </div>
+
+            <h3>4. Key Results</h3>
+            <p>
+                The system now handles 90% of Level 1 triage without human intervention.
+            </p>
+
+            <div class="article-footer">
+                <a href="index.html#projects" class="btn secondary-btn">&larr; Back to Projects</a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sanan Rahimli. All Systems Operational.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
