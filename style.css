@@ -343,3 +343,28 @@ code {
     color: var(--accent);
     background: rgba(0, 0, 0, 0.9);
 }
+
+/* --- Figure & Caption Styling --- */
+figure.image-container {
+    margin: 2rem 0; /* Space around the whole block */
+    text-align: center; /* Centers the image and the text */
+}
+
+/* Update your existing .article-img to remove its old margin */
+/* The figure now handles the spacing */
+.article-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.5rem; /* Small space between image and text */
+}
+
+figcaption {
+    color: var(--text-muted); /* Uses your grey variable */
+    font-size: 0.9rem;        /* Smaller font */
+    font-family: var(--font-mono); /* Looks technical */
+    font-style: italic;
+    margin-top: 5px;
+}

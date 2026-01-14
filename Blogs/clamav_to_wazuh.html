@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | SR</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">&lt;SR.Sec /&gt;</div>
+        <ul class="nav-links">
+            <li><a href="/index.html">Back to Home</a></li>
+        </ul>
+    </nav>
+
+    <header class="blog-header-section">
+        <div class="container">
+            <span class="blog-date-large">February 20, 2024</span>
+            <h1 class="article-title">Sending ClamAV Scan Logs to Wazuh via Script</h1>
+            <div class="tags">
+                <span>Wazuh</span>
+                <span>ClamAV</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <article class="blog-content-wrapper fade-in-up">
+            
+            <p class="intro-text">
+                You can find information about ClamAV, installation instructions and how to send standard ClamAV logs directly to Wazuh in my previous article. This time, I will show you how to use a custom script that scans a file or directory. If it detects a malicious file, it automatically logs it, saves that log in the <strong>clamav.log</strong> file, and sends it to Wazuh.
+            </p>
+
+            <p>
+                Unlike the previous method, here you must write a custom decoder and rule so that Wazuh can read this log and parse it into its own format. You can write and automate this script yourself based on <strong>clamscan</strong> results or you can visit the GitHub link provided below to review or download the script.
+            </p>
+            <li><strong>GitHub Link - </strong> <a href="https://github.com/sananrr/Clamwaz" target="_blank">Clamwaz</a></li>
+
+            <p>
+                To test how it works, download a malware sample (such as Eicar) and then run the script against that file. Once executed and the process is complete, it displays the result, and the same result is reflected in the <code>/var/log/clamav/script_log/clamav.log</code> file. As shown in the image below:
+            </p>
+            <img src="/Blogs/clamwaz/clamwaz_result.png" alt="Clamwaz Result" class="article-img">
+
+            <p>
+                After this, all that remains is to forward the log to Wazuh. To do this, we need to modify the <code>local_decoder.xml</code> and <code>local_rule.xml</code> files to convert the data into a format that Wazuh can interpret.
+            </p>
+            <figure class="image-container">
+                <img src="/Blogs/clamwaz/clamwaz_decoder.png" alt="Clamwaz Decoder" class="article-img">
+                <figcaption>The decoder I wrote corresponding to the log</figcaption>
+            </figure>
+            <p>The only thing left is to write the rule for this, which you can see in the image below:</p>
+            <img src="/Blogs/clamwaz/rule.png" alt="Wazuh Rule" class="article-img">
+            <p>To ensure accuracy, you can copy the log and paste it into <code>/var/ossec/bin/wazuh-logtest</code>. For example:</p>
+            <img src="/Blogs/clamwaz/longtest.png" alt="Wazuh Longtest" class="article-img">
+            <p>This indicates that all the steps I have taken so far are correct. Finally, you just need to specify the file where the logs are collected in the <code>/var/ossec/etc/ossec.conf</code> file so that Wazuh can ingest these logs.</p>
+            <img src="/Blogs/clamwaz/clamwaz_result.png" alt="Wazuh Log" class="article-img">
+            <p>Finally, you can see the visualization of the log in the Wazuh Dashboard in the image below:</p>
+            <img src="/Blogs/clamwaz/wazuh-alert.png" alt="Wazuh Alert" class="article-img">
+
+            <h4>References:</h4>
+            <ul>
+                <li><a href="https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html" target="_blank">Wazuh Rules</a></li>
+                <li><a href="https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/decoders.html#decoder" target="_blank">Wazuh Decoder</a></li>
+                <li><a href="https://documentation.wazuh.com/current/user-manual/ruleset/testing.html" target="_blank">Wazuh Rule Test</a></li>
+            </ul>
+
+            <div class="article-footer">
+                <a href="index.html" class="btn secondary-btn">&larr; Return to Portfolio</a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sanan Rahimli. All Systems Operational.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
